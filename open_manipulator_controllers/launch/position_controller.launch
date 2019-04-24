@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+   <arg name="usb_port" default="/dev/ttyUSB0"/>
+   <arg name="dxl_baud_rate" default="3000000"/>
+   
+   <param name="dynamixel_info" value="$(find open_manipulator_controllers)/config/open_manipulator_position_config.yaml"/> 
+ 
+
+   <node name="position_controller" pkg="open_manipulator_controllers" type="position_controller" required="true" output="screen" args="$(arg usb_port) $(arg dxl_baud_rate)">
+      <remap from="/position_controller/joint_states" to="/joint_states"/>
+      <rosparam>
+         publish_period: 0.01   <!--Seconds-->
+         dxl_read_period: 0.01     <!--Seconds (Must be >= 0.01)-->
+         dxl_write_period: 0.01   <!--Seconds -->
+      </rosparam>
+   </node>
+</launch>
